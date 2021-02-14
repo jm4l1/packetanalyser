@@ -1,0 +1,19 @@
+# created by virtualenv automatically
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+
+# pcaps
+*.raw
+*.pcap
+*.pcapng
+
+#external repos
+g729a/
