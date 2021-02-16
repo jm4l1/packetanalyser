@@ -22,7 +22,8 @@ Implementation works with Linux and MacOS
 
 ## Running the application
 
-```$./packetanalyser.py -h
+```bash
+$./packetanalyser.py -h
 Invalid usage specified
 usage: ./packetanalyser.py [options]
 Options :
@@ -31,11 +32,12 @@ Options :
 	-h : Show Help
 ```
 
-```$./packetanalyser.py -f outbound2.pcap
+```bash
+$./packetanalyser.py -f outbound2.pcap
 Reading file outbound2.pcap
                       z9hG4bKPj4453585d-c73b-481d-88ce-90f8b3be34cf      z9hG4bKPj4397c8a4-1220-4bf3-9f21-2959810dcd1d
 caller                                                     28190090                                           28190090
-called                                                  50937007164                                        50937007164
+called                                                     37007164                                           37007164
 caller_media_address                                  10.100.208.82                                      10.100.208.82
 caller_sdp_media_port                                         15410                                              15410
 set_up                                                       failed                                            success
