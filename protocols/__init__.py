@@ -1,5 +1,5 @@
 import pywav
-from g729a.g729a import G729Adecoder
+# from g729a.g729a import G729Adecoder
 
 
 def analyse_sip(packets, port=5060, proto="UDP"):
@@ -42,10 +42,10 @@ def write_media_stream(packets, caller_ip, caller_port, called_ip, called_port, 
     raw_data_in = bytearray.fromhex(in_byte_stream)
     raw_data_out = bytearray.fromhex(out_byte_stream)
 
-    if codec == "G729":
-        decoder = G729Adecoder()
-        raw_data_in = decoder.process(raw_data_in)
-        raw_data_out = decoder.process(raw_data_out)
+    # if codec == "G729":
+    #     decoder = G729Adecoder()
+    #     raw_data_in = decoder.process(raw_data_in)
+    #     raw_data_out = decoder.process(raw_data_out)
 
     output_audio_in.write(raw_data_in)
     output_audio_out.write(raw_data_out)

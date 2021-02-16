@@ -15,9 +15,10 @@ Implementation works with Linux and MacOS
 ## Basic Build Instructions
 
 1. Clone this repo and change to directory.
-2. Start virtualenv : `. bin/activate`
-3. Install requirements: `pip install -r requirements.txt`
-4. Run it: `./packetanalyser.py [-f file.pcap] [-h] [-i interface]`.
+2. Create virtual env: `virtualenv .`
+3. Start virtualenv : `. bin/activate`
+4. Install requirements: `pip install -r requirements.txt`
+5. Run it: `./packetanalyser.py [-f file.pcap] [-h] [-i interface]`.
 
 ## Running the application
 
