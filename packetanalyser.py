@@ -18,6 +18,20 @@ def showMenu(name):
     print('\t-h : Show Help')
 
 
+def read_packets_from_file(file):
+    print("Reading file " + file)
+    packets = readFile(file_name)
+    return packets
+
+
+def analyse_from_packets(packets):
+    sip_summary = analyse_sip(packets)
+    for summary in sip_summary:
+        if len(summary.keys()) == 0:
+            continue
+        print(pd.DataFrame(summary))
+
+
 try:
     opts, args = getopt.getopt(sys.argv[1:], "hf:i:")
 
@@ -40,8 +54,9 @@ for opt in opts:
             print("File " + file_name + ", can not be opened for reading!")
             exit(2)
 
-        print("Reading file " + opt[1])
-        packets = readFile(file_name)
+        packets = read_packets_from_file(opt[1])
+        analyse_from_packets(packets)
+        exit()
 
     elif opt[0] == '-i':
         if_name = opt[1]
@@ -49,9 +64,3 @@ for opt in opts:
             print("-f : File name must be given")
             exit(2)
         print("Reading interface " + if_name)
-
-sip_summary = analyse_sip(packets)
-for summary in sip_summary:
-    if len(summary.keys()) == 0:
-        continue
-    print(pd.DataFrame(summary))

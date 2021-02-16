@@ -8,20 +8,18 @@ def analyse_sip(packets, port=5060, proto="UDP"):
     for call_id in calls.keys():
         summary = analyse_call(calls[call_id])
         for branch in summary:
+            if(summary[branch].get('caller_media_address') is None or summary[branch].get('called_media_address') is None):
+                continue
             if summary[branch]['set_up'] == 'success':
                 audio_file = write_media_stream(
-                    packets, summary[branch]['caller_media_address'], summary[branch]['caller_sdp_media_port'], summary[branch]['called_media_address'], summary[branch]['called_sdp_media_port'], summary[branch]['codec'], proto)
+                    packets, summary[branch]['caller_media_address'], summary[branch]['caller_sdp_media_port'], summary[branch]['called_media_address'], summary[branch]['called_sdp_media_port'], summary[branch]['codec'], proto, branch)
                 summary[branch]['audio_file'] = audio_file
         call_summarys.append(summary)
     return call_summarys
 
 
-def write_media_stream(packets, caller_ip, caller_port, called_ip, called_port, codec, proto):
-
-    file_name = 'my_audio'
-    # output_audio_in = open(file_name + "_in.raw", 'wb')
-    # output_audio_out = open(file_name + "_out.raw", 'wb')
-
+def write_media_stream(packets, caller_ip, caller_port, called_ip, called_port, codec, proto, file_name):
+    file_name = "call_audio/" + file_name
     in_byte_stream = ""
     out_byte_stream = ""
     output_audio_in = pywav.WavWrite(file_name + "_in.raw", 1, 8000, 8, 7)
@@ -110,6 +108,8 @@ def analyse_call(messages):
                 if message.status_code == "100":
                     continue
                 if message.status_code.startswith("18"):
+                    if call_summary.get(via_branch) is None:
+                        call_summary[via_branch] = {}
                     if int(message.content_length) > 0:
                         call_summary[via_branch]['called_media_address'] = message.sdp_connection_info_address
                         call_summary[via_branch]['called_sdp_media_port'] = message.sdp_media_port
