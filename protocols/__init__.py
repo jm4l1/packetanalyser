@@ -10,7 +10,7 @@ def analyse_sip(packets, port=5060, proto="UDP"):
         for branch in summary:
             if(summary[branch].get('caller_media_address') is None or summary[branch].get('called_media_address') is None):
                 continue
-            if summary[branch]['set_up'] == 'success':
+            if summary[branch]['final_response'] == 'success':
                 audio_file = write_media_stream(
                     packets, summary[branch]['caller_media_address'], summary[branch]['caller_sdp_media_port'], summary[branch]['called_media_address'], summary[branch]['called_sdp_media_port'], summary[branch]['codec'], proto, branch)
                 summary[branch]['audio_file'] = audio_file
@@ -122,15 +122,17 @@ def analyse_call(messages):
                         call_summary[via_branch]['called_media_address'] = message.sdp_connection_info_address
                         call_summary[via_branch]['called_sdp_media_port'] = message.sdp_media_port
                         call_summary[via_branch]['codec'] = message.sdp_mime_type
-                    call_summary[via_branch]['set_up'] = "success"
-                    call_summary[via_branch]['set_up_response'] = message.status_code
+                    call_summary[via_branch]['final_response'] = message.status_line.split(" ")[
+                        2]
+                    call_summary[via_branch]['final_response_code'] = message.status_code
                     continue
 
                 if str(message.status_code).startswith("4") or message.status_code.startswith("5") or message.status_code.startswith("6"):
                     if call_summary.get(via_branch) is None:
                         call_summary[via_branch] = {}
-                    call_summary[via_branch]['set_up'] = "failed"
-                    call_summary[via_branch]['set_up_response'] = message.status_code
+                    call_summary[via_branch]['final_response'] = message.status_line.split(" ")[
+                        2]
+                    call_summary[via_branch]['final_response_code'] = message.status_code
                     continue
 
                 if call_summary.get(via_branch) is None:
