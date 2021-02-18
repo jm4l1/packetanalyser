@@ -2,18 +2,19 @@ import pywav
 # from g729a.g729a import G729Adecoder
 
 
-def analyse_sip(packets, port=5060, proto="UDP"):
+def analyse_sip(packets, port=5060, proto="UDP", analysertp=False):
     calls = get_calls(packets, port, proto)
     call_summarys = []
     for call_id in calls.keys():
         summary = analyse_call(calls[call_id])
-        for branch in summary:
-            if(summary[branch].get('caller_media_address') is None or summary[branch].get('called_media_address') is None):
-                continue
-            if summary[branch]['final_response'] == 'success':
-                audio_file = write_media_stream(
-                    packets, summary[branch]['caller_media_address'], summary[branch]['caller_sdp_media_port'], summary[branch]['called_media_address'], summary[branch]['called_sdp_media_port'], summary[branch]['codec'], proto, branch)
-                summary[branch]['audio_file'] = audio_file
+        if analysertp:
+            for branch in summary:
+                if(summary[branch].get('caller_media_address') is None or summary[branch].get('called_media_address') is None):
+                    continue
+                if summary[branch]['final_response'] == 'OK':
+                    audio_file = write_media_stream(
+                        packets, summary[branch]['caller_media_address'], summary[branch]['caller_sdp_media_port'], summary[branch]['called_media_address'], summary[branch]['called_sdp_media_port'], summary[branch]['codec'], proto, branch)
+                    summary[branch]['audio_file'] = audio_file
         call_summarys.append(summary)
     return call_summarys
 
