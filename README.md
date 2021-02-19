@@ -18,18 +18,27 @@ Implementation works with Linux and MacOS
 2. Create virtual env: `virtualenv .`
 3. Start virtualenv : `. bin/activate`
 4. Install requirements: `pip install -r requirements.txt`
-5. Run it: `./packetanalyser.py [-f file.pcap] [-h] [-i interface]`.
+5. Run it: `packetanalyser.py [-h] [-f FILE | -i IFNAME] [-c COUNT] [-t TIMEOUT] -p {sip,rtp}`.
 
 ## Running the application
 
 ```bash
-$./packetanalyser.py -h
-Invalid usage specified
-usage: ./packetanalyser.py [options]
-Options :
-	-f : Name of file to read
-	-i : Interface to read packets
-	-h : Show Help
+./packetanalyser.py -h
+usage: packetanalyser.py [-h] [-f FILE | -i IFNAME] [-c COUNT] [-t TIMEOUT] -p {sip,rtp}
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  Name of file to read packets from
+  -i IFNAME, --ifname IFNAME
+                        Name of interface to capture live packets from
+  -p {sip,rtp}, --proto {sip,rtp}
+                        Name of protocol to be analysed
+
+interface options:
+  -c COUNT, --count COUNT
+                        Number of packets to capture
+  -t TIMEOUT, --timeout TIMEOUT
+                        Lenght of time to capture
 ```
 
 ```bash

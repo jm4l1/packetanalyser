@@ -84,11 +84,12 @@ def analyse_call(messages):
                 if call_summary.get(via_branch) is None:
                     call_summary[via_branch] = {}
                 call_summary[via_branch]['user'] = message.from_user
-                if call_summary.get('expires') is not None:
-                    call_summary[via_branch]['type'] = "Resgiter"
+                call_summary[via_branch]['contact'] = message.contact_parameter
+                if message.get('expires') is not None:
+                    call_summary[via_branch]['type'] = "REGISTER"
                     call_summary[via_branch]['expire_requested'] = message.expires
                 if message.get("contact_parameter") is not None and message.get("contact_parameter") == "expires=0":
-                    call_summary[via_branch]['type'] = "Unesgiter"
+                    call_summary[via_branch]['type'] = "Unresgiter"
 
             elif message.method == "INVITE":
                 via_branch = message.via_branch
